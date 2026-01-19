@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useLanguage } from '@/lib/language-context';
-import { Mail, Phone, MapPin } from 'lucide-react';
-import Image from 'next/image';
+import { useLanguage } from "@/lib/language-context";
+import { Mail, Phone, MapPin } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -10,8 +10,8 @@ export default function Footer() {
   return (
     <footer id="footer" className="bg-[#4A4A4A] text-white">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 item gap-12 justify-items-center">
+          {/* <div>
             <div className="mb-6">
               <Image
                 src="/nobglogo.png"
@@ -25,18 +25,18 @@ export default function Footer() {
             <p className="text-gray-300 leading-relaxed">
               {t('footer_description')}
             </p>
-          </div>
+          </div> */}
 
           <div>
-            <h3 className="text-2xl font-bold mb-6">{t('footer_contact')}</h3>
+            <h3 className="text-2xl font-bold mb-6">{t("footer_contact")}</h3>
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <Mail className="w-5 h-5 mt-1 text-[#CD7F6C]" />
-                <p className="text-gray-300">{t('footer_email')}</p>
+                <p className="text-gray-300">{t("footer_email")}</p>
               </div>
               <div className="flex items-start gap-3">
                 <Phone className="w-5 h-5 mt-1 text-[#CD7F6C]" />
-                <p className="text-gray-300">{t('footer_phone')}</p>
+                <p className="text-gray-300">{t("footer_phone")}</p>
               </div>
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 mt-1 text-[#CD7F6C]" />
@@ -80,7 +80,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-600 mt-12 pt-8 text-center">
-          <p className="text-gray-400">{t('footer_rights')}</p>
+          <p className="text-gray-400">{t("footer_rights")}</p>
         </div>
       </div>
     </footer>
