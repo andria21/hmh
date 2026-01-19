@@ -4,22 +4,40 @@ import { useState, useRef } from "react";
 import { useLanguage } from "@/lib/language-context";
 import { Upload } from "lucide-react";
 import { toast } from "sonner";
+import Link from "next/link";
 
-interface HeroSectionProps {
-  onShowAbout: () => void;
-}
-
-export default function HeroSection({ onShowAbout }: HeroSectionProps) {
+export default function HeroSection() {
   const { t } = useLanguage();
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleShowAbout = () => {
-    onShowAbout();
-    setTimeout(() => {
-      const about = document.getElementById("about");
-      about?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+  const handleScrollToAbout = () => {
+    const aboutSection = document.getElementById("about");
+    if (!aboutSection) return;
+
+    const targetPosition = aboutSection.offsetTop;
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    const duration = 2000; // 2 seconds for slow, smooth scroll
+    let start: number | null = null;
+
+    const animation = (currentTime: number) => {
+      if (start === null) start = currentTime;
+      const timeElapsed = currentTime - start;
+      const run = ease(timeElapsed, startPosition, distance, duration);
+      window.scrollTo(0, run);
+      if (timeElapsed < duration) requestAnimationFrame(animation);
+    };
+
+    // Easing function for smooth animation
+    const ease = (t: number, b: number, c: number, d: number) => {
+      t /= d / 2;
+      if (t < 1) return (c / 2) * t * t + b;
+      t--;
+      return (-c / 2) * (t * (t - 2) - 1) + b;
+    };
+
+    requestAnimationFrame(animation);
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,12 +128,7 @@ export default function HeroSection({ onShowAbout }: HeroSectionProps) {
         </div>
 
         <div className="relative h-24 overflow-visible">
-          <div
-            className="absolute inset-0 w-full bg-[#CD7F6C]"
-            style={{
-              height: "96px",
-            }}
-          />
+          <div className="absolute inset-0 w-full bg-[#CD7F6C] h-[96px]" />
 
           <div
             className="absolute flex flex-col items-center"
@@ -152,14 +165,12 @@ export default function HeroSection({ onShowAbout }: HeroSectionProps) {
             />
           </div>
 
-          <div className="absolute inset-0 flex items-center justify-center z-10">
-            <button
-              onClick={handleShowAbout}
-              className="text-white text-xl font-medium hover:underline transition-all duration-200"
-            >
-              {t("find_out")}
-            </button>
-          </div>
+          <button
+            onClick={handleScrollToAbout}
+            className="absolute inset-0 flex items-center justify-center z-10 text-white text-xl font-medium hover:underline transition-all duration-200 md:pt-0 pt-28"
+          >
+            {t("find_out")}
+          </button>
         </div>
       </div>
     </section>
